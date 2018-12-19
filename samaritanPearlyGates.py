@@ -21,7 +21,7 @@ Hotel Contact Number: {4}
 Google Map directions: {5}
 '''
 
-producer = KafkaProducer(bootstrap_servers = app.config.KAFKA_BROKERS)
+# producer = KafkaProducer(bootstrap_servers = app.config.KAFKA_BROKERS)
 
 # print(app.config.DB_HOST)
 
@@ -206,4 +206,4 @@ async def sendLocationSms(request):
                 return json(createResponse(message='Sorry, we are unable to connect with booking service. Please try after some time'))
 
 if __name__ == "__main__":
-    app.run(host=app.config.HOST, port=app.config.PORT, workers=app.config.WORKERS)
+    app.run(host=app.config.HOST, port=int(app.config.PORT), workers=int(app.config.WORKERS))
