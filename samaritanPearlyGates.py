@@ -59,7 +59,7 @@ def urlGenerator(type='', endPoint=''):
 def validateRequest(otp):
     otpTokenHistoryList = [totp.now(), totp.at(time.time()-30), totp.at(time.time()-60)]
 
-    if (1==2): #str(otp) not in otpTokenHistoryList:
+    if str(otp) not in otpTokenHistoryList:
         return json(createResponse(message='OTP Expired, Please provide a valid OTP'))
     else:
         return True
@@ -83,7 +83,11 @@ def requestSenatizer(request):
 async def fetchLatestBookingDetails(request):
     mobile, otp = requestSenatizer(request)
 
-    if validateRequest(otp):
+    print(mobile, otp)
+    
+    isValidOtp = validateRequest(otp)
+
+    if isValidOtp == True:
         url = urlGenerator(type='booking', endPoint='detail')
         data={
             "limit": 1,
@@ -124,6 +128,8 @@ async def fetchLatestBookingDetails(request):
             return json(createResponse(True, finalResponse))
         else:
             return json(createResponse(message='Sorry, we are unable to connect with booking service. Please try after some time'))
+    else:
+        return isValidOtp
 
 @app.route("/send/location_sms", methods=['POST'])
 async def sendLocationSms(request):
