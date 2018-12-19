@@ -25,9 +25,9 @@ producer = KafkaProducer(bootstrap_servers = app.config.KAFKA_BROKERS)
 
 # print(app.config.DB_HOST)
 
-while True:
-    print(totp.now())
-    time.sleep(2)
+# while True:
+#     print(totp.now())
+#     time.sleep(2)
 
 def createResponse(success=False, data={}, message=''):
     ret = {
