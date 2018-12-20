@@ -106,11 +106,15 @@ async def fetchLatestBookingDetails(request):
             'Accept': 'application/json',
         }
         response = requests.request('POST', url, data=pyjson.dumps(data),headers=headers)
-        jsonResponse = response.json()
-        
-        responseStatus = jsonResponse.get('status', False)
 
-        if responseStatus:
+        try:
+            jsonResponse = response.json()
+        except Exception as e:
+            return json(createResponse(message='Sorry, we are unable to connect with booking service. Please try after some time'))
+        
+        responseStatus = jsonResponse.get('status', '0')
+        
+        if (responseStatus != '0'):
             responseData = pyjson.loads(jsonResponse.get('data', '"[]"'))
             responseData = responseData[0]
             finalResponse = {
@@ -131,7 +135,7 @@ async def fetchLatestBookingDetails(request):
             finalResponse['bookingStatus'] = bookingStatusGenerator(responseData['booking_status'])
             return json(createResponse(True, finalResponse))
         else:
-            return json(createResponse(message='Sorry, we are unable to connect with booking service. Please try after some time'))
+            return json(createResponse(message='Mobile no seems to be invalid. Please provide a valid mobile no'))
     else:
         return isValidOtp
 
