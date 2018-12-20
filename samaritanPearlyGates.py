@@ -79,6 +79,10 @@ def requestSenatizer(request):
 
     return mobile, otp
 
+@app.route("/health_check", methods=['POST', 'GET'])
+async def showHealth(request):
+    return json(createResponse(True))
+
 @app.route("/fetch/booking_details", methods=['POST'])
 async def fetchLatestBookingDetails(request):
     mobile, otp = requestSenatizer(request)
