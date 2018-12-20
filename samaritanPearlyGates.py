@@ -21,7 +21,7 @@ Hotel Contact Number: {4}
 Google Map directions: {5}
 '''
 
-# producer = KafkaProducer(bootstrap_servers = app.config.KAFKA_BROKERS)
+producer = KafkaProducer(bootstrap_servers = app.config.KAFKA_BROKERS)
 
 # print(app.config.DB_HOST)
 
