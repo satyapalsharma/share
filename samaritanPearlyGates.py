@@ -21,7 +21,7 @@ Hotel Contact Number: {4}
 Google Map directions: {5}
 '''
 
-producer = KafkaProducer(bootstrap_servers = app.config.KAFKA_BROKERS)
+# producer = KafkaProducer(bootstrap_servers = app.config.KAFKA_BROKERS)
 
 # print(app.config.DB_HOST)
 
@@ -118,14 +118,14 @@ async def fetchLatestBookingDetails(request):
             responseData = pyjson.loads(jsonResponse.get('data', '"[]"'))
             responseData = responseData[0]
             finalResponse = {
-                "propertyName": responseData['propertyName'],
-                "userFirstName": responseData['userDetails']['firstName'],
-                "userLastName": responseData['userDetails']['lastName'],
-                "travellerFirstName": responseData['travellerDetails'][0]['firstName'],
-                "travellerLastName": responseData['travellerDetails'][0]['lastName'],
-                "checkin": responseData['checkin'],
-                "checkout": responseData['checkout'],
-                "orderNo": responseData['order_no'],
+                "propertyName": responseData.get('propertyName', ''),
+                "userFirstName": responseData.get('userDetails', '').get('firstName', ''),
+                "userLastName": responseData.get('userDetails', '').get('lastName', ''),
+                "travellerFirstName": responseData.get('travellerDetails', '')[0].get('firstName', ''),
+                "travellerLastName": responseData.get('travellerDetails', '')[0].get('lastName', ''),
+                "checkin": responseData.get('checkin'),
+                "checkout": responseData.get('checkout'),
+                "orderNo": responseData.get('order_no'),
                 "otaBookingId": ''
             }
 
